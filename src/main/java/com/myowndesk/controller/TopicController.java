@@ -26,7 +26,7 @@ import com.myowndesk.service.inter.IMessageByLocaleService;
 import com.myowndesk.service.inter.ITopicService;
 
 @RestController
-@RequestMapping("/")
+@RequestMapping("/topic")
 public class TopicController {
 
 	// @Autowired
@@ -38,14 +38,14 @@ public class TopicController {
 	@Autowired
 	ITopicService iTopicService;
 
-	@GetMapping("fetchTopicList")
+	@GetMapping("/fetchTopicList")
 	public List<Topic> fetchTopicList(@RequestParam(value = "menuId") long menuId,
 			@RequestParam(value = "type", required = false) String type) {
 		List<Topic> topicList = iTopicService.fetchTopicList(menuId, type, IConstant.ACTIVE);
 		return topicList;
 	}
 
-	@PostMapping("addTopic")
+	@PostMapping("/addTopic")
 	public ResponseEntity<?> addTopic(@Valid @RequestBody Topic topic, UriComponentsBuilder builder, Errors errors) {
 		topic.setStatus(IConstant.ACTIVE);
 		boolean flag = iTopicService.addTopic(topic);
@@ -60,7 +60,7 @@ public class TopicController {
 		return ResponseEntity.created(null).body(success);
 	}
 
-	@PutMapping("updateTopic")
+	@PutMapping("/updateTopic")
 	public ResponseEntity<?> updateTopic(@Valid @RequestBody Topic topicReq) {
 		Topic topic = iTopicService.fetchTopicDetail(topicReq.getId());
 		topic.setTitle(topicReq.getTitle());
@@ -74,7 +74,7 @@ public class TopicController {
 		return new ResponseEntity<Topic>(topic, HttpStatus.OK);
 	}
 
-	@DeleteMapping("deleteTopic")
+	@DeleteMapping("/deleteTopic")
 	public ResponseEntity<Void> deleteTopic(@RequestParam(value = "id") long id) {
 		Topic topic = iTopicService.fetchTopicDetail(id);
 		topic.setStatus(IConstant.DELETE);

@@ -25,7 +25,7 @@ import com.myowndesk.service.inter.IMenuService;
 import com.myowndesk.service.inter.IMessageByLocaleService;
 
 @RestController
-@RequestMapping("/")
+@RequestMapping("/menu")
 public class MenuController {
 	
 	@Autowired
@@ -34,13 +34,13 @@ public class MenuController {
 	@Autowired
 	IMessageByLocaleService messageLocale;
 	
-	@GetMapping("fetchMenuList")
+	@GetMapping("/fetchMenuList")
 	public List<Menu> fetchMenuList(@RequestParam(value = "userId") long userId) {
 		List<Menu> menuList = iMenuService.fetchMenuList(userId, IConstant.ACTIVE);
 		return menuList;
 	}
 	
-	@PostMapping("addMenu")
+	@PostMapping("/addMenu")
 	public ResponseEntity<?> addMenu(@Valid @RequestBody Menu menu, UriComponentsBuilder builder, Errors errors) {
 		menu.setStatus(IConstant.ACTIVE);
 		boolean flag = iMenuService.addMenu(menu);
@@ -49,13 +49,12 @@ public class MenuController {
 			responseMsg = messageLocale.getMessage("menu.added.already");
 			CustResponse restAlready = new CustResponse(responseMsg);
 			return ResponseEntity.status(HttpStatus.ALREADY_REPORTED).body(restAlready);
-		}
-		responseMsg = messageLocale.getMessage("menu.added.success");
-		CustResponse success = new CustResponse(responseMsg);
-		return ResponseEntity.created(null).body(success);
+		}		
+		List<Menu> menuList = iMenuService.fetchMenuList(menu.getUserId(), IConstant.ACTIVE);
+		return ResponseEntity.status(HttpStatus.CREATED).body(menuList);
 	}
 	
-	@PutMapping("updateMenu")
+	@PostMapping("/updateMenu")
 	public ResponseEntity<?> updateMenu(@Valid @RequestBody Menu menuReq) {
 		Menu menu = iMenuService.fetchMenuDetail(menuReq.getId());
 		menu.setName(menuReq.getName());
@@ -67,9 +66,9 @@ public class MenuController {
 		return new ResponseEntity<Menu>(menu, HttpStatus.OK);
 	}
 	
-	@DeleteMapping("deleteMenu")
-	public ResponseEntity<Void> deleteMenu(@RequestParam(value = "id") long id) {
-		Menu menu = iMenuService.fetchMenuDetail(id);
+	@DeleteMapping("/deleteMenu")
+	public ResponseEntity<Void> deleteMenu(@RequestParam(value = "menuId") long menuId) {
+		Menu menu = iMenuService.fetchMenuDetail(menuId);
 		menu.setStatus(IConstant.DELETE);
 		iMenuService.deleteMenu(menu);
 		return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);

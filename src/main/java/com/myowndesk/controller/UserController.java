@@ -28,7 +28,7 @@ import com.myowndesk.service.inter.IUserService;
 import com.myowndesk.util.Utils;
 
 @RestController
-@RequestMapping("/")
+@RequestMapping("/user")
 public class UserController {
 
 	@Autowired
@@ -37,7 +37,7 @@ public class UserController {
 	@Autowired
 	IMessageByLocaleService messageLocale;
 
-	@PostMapping("addUser")
+	@PostMapping("/addUser")
 	public ResponseEntity<?> addUser(@Valid @RequestBody User user, UriComponentsBuilder builder, Errors errors) {
 		user.setStatus(IConstant.ACTIVE);
 		boolean flag = iUserService.addUser(user);
@@ -52,7 +52,7 @@ public class UserController {
 		return ResponseEntity.created(null).body(success);
 	}
 
-	@PostMapping("addName")
+	@PostMapping("/addName")
 	public ResponseEntity<?> addName(@RequestParam(value = "id") long id, @RequestParam(value = "name") String name) {
 		String errorMsg = null;
 		if (!Utils.isEmpty(name)) {
@@ -74,25 +74,25 @@ public class UserController {
 		return new ResponseEntity<Void>(headers, HttpStatus.CREATED);
 	}
 
-	@GetMapping("fetchUserDetail")
+	@GetMapping("/fetchUserDetail")
 	public User fetchUserDetail(@RequestParam(value = "userId") long id) {
 		User user = iUserService.fetchUserDetail(id);
 		return user;
 	}
 
-	@GetMapping("fetchAllUsers")
+	@GetMapping("/fetchAllUsers")
 	public List<User> fetchAllUsers() {
 		List<User> allUserList = iUserService.fetchAllUsers();
 		return allUserList;
 	}
 
-	@PutMapping("updateUser")
+	@PutMapping("/updateUser")
 	public ResponseEntity<User> updateUser(@RequestBody User user) {
 		iUserService.updateUser(user);
 		return new ResponseEntity<User>(user, HttpStatus.OK);
 	}
 
-	@DeleteMapping("deleteUser")
+	@DeleteMapping("/deleteUser")
 	public ResponseEntity<Void> deleteUser(@RequestParam(value = "id") long id) {
 		User user = iUserService.fetchUserDetail(id);
 		user.setStatus(IConstant.DELETE);

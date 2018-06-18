@@ -8,6 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 
 import org.hibernate.annotations.GenericGenerator;
@@ -31,6 +32,7 @@ public class Menu extends AuditModel implements Serializable {
 	@Column(name="status", columnDefinition = "VARCHAR(2)", length = 2)
 	private String status;
 	
+	@Min(value = 0L, message = "UserId value must be positive")
 	@Column(name="user_id")
 	private long userId;
 

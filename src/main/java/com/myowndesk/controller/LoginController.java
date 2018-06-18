@@ -17,7 +17,7 @@ import com.myowndesk.service.inter.IUserService;
 import com.myowndesk.util.Utils;
 
 @RestController
-@RequestMapping("/")
+@RequestMapping("/user")
 public class LoginController {
 
 	Logger logger = LoggerFactory.getLogger(LoginController.class);
@@ -28,7 +28,7 @@ public class LoginController {
 	@Autowired
 	IMessageByLocaleService messageLocale;
 
-	@PostMapping("login")
+	@PostMapping("/login")
 	public ResponseEntity<?> validateLogin(@RequestParam(value = "emailId") String emailId,
 			@RequestParam(value = "password") String password) {
 
