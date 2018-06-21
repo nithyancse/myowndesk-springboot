@@ -30,8 +30,8 @@ public class Topic extends AuditModel implements Serializable {
 	private String title;
 	
 	@NotBlank(message="Description name should not be empty")
-	@Size(max=5000, message="Description length should be less than 20000 chars")
-	@Column(name="description", nullable = false, columnDefinition = "VARCHAR(20000)", length = 20000)
+	@Size(max=200000, message="Description length should be less than 200000 chars")
+	@Column(name="description", nullable = false, columnDefinition = "TEXT")
 	private String description;
 	
 	@NotBlank

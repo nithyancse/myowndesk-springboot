@@ -55,12 +55,11 @@ public class TopicController {
 			CustResponse restAlready = new CustResponse(responseMsg);
 			return ResponseEntity.status(HttpStatus.ALREADY_REPORTED).body(restAlready);
 		}
-		responseMsg = messageLocale.getMessage("topic.posted.success");
-		CustResponse success = new CustResponse(responseMsg);
-		return ResponseEntity.created(null).body(success);
+		List<Topic> topicList = iTopicService.fetchTopicList(topic.getMenuId(), null, IConstant.ACTIVE);
+		return ResponseEntity.status(HttpStatus.CREATED).body(topicList);
 	}
 
-	@PutMapping("/updateTopic")
+	@PostMapping("/updateTopic")
 	public ResponseEntity<?> updateTopic(@Valid @RequestBody Topic topicReq) {
 		Topic topic = iTopicService.fetchTopicDetail(topicReq.getId());
 		topic.setTitle(topicReq.getTitle());
@@ -75,8 +74,8 @@ public class TopicController {
 	}
 
 	@DeleteMapping("/deleteTopic")
-	public ResponseEntity<Void> deleteTopic(@RequestParam(value = "id") long id) {
-		Topic topic = iTopicService.fetchTopicDetail(id);
+	public ResponseEntity<Void> deleteTopic(@RequestParam(value = "topicId") long topicId) {
+		Topic topic = iTopicService.fetchTopicDetail(topicId);
 		topic.setStatus(IConstant.DELETE);
 		iTopicService.deleteTopic(topic);
 		return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);

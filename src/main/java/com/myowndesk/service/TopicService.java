@@ -38,7 +38,8 @@ public class TopicService implements ITopicService {
 	@Override
 	public boolean updateTopic(Topic topic) {
 		List<Topic> list = topicRepository.findByMenuIdAndTitle(topic.getMenuId(), topic.getTitle()); 	
-        if (list.size() > 0) {
+        //current topic name not changed but other values can change
+		if (list.size() > 1) {
         	return false;
         } else {
         	topicRepository.save(topic);
