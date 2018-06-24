@@ -1,5 +1,5 @@
-<!-- Here SLF4J API with Log4j2 implementation in a Spring Boot application. -->
 <?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xml>
 <Configuration status="WARN">
     <Appenders>
         <Console name="Console" target="SYSTEM_OUT">
@@ -13,5 +13,5 @@
         </Root>
     </Loggers>
 </Configuration>
-
+<!-- Here SLF4J API with Log4j2 implementation in a Spring Boot application. -->
 

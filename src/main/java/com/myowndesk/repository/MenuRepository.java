@@ -8,7 +8,7 @@ import com.myowndesk.domain.Menu;
 
 public interface MenuRepository extends CrudRepository<Menu, Long> {
 	
-	List<Menu> findByNameAndStatus(String name, String status);
+	List<Menu> findByNameAndStatusAndUserId(String name, String status, long userId);
 	List<Menu> findByUserIdAndStatus(long userId, String status);
 
 }

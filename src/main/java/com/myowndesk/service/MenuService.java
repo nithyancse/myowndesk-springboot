@@ -16,7 +16,7 @@ public class MenuService implements IMenuService {
 
 	@Override
 	public boolean addMenu(Menu menu) {
-		List<Menu> list = menuRepository.findByNameAndStatus(menu.getName(), menu.getStatus()); 	
+		List<Menu> list = menuRepository.findByNameAndStatusAndUserId(menu.getName(), menu.getStatus(), menu.getUserId()); 	
         if (list.size() > 0) {
         	return false;
         } else {
@@ -27,7 +27,7 @@ public class MenuService implements IMenuService {
 
 	@Override
 	public boolean updateMenu(Menu menu) {
-		List<Menu> list = menuRepository.findByNameAndStatus(menu.getName(), menu.getStatus()); 	
+		List<Menu> list = menuRepository.findByNameAndStatusAndUserId(menu.getName(), menu.getStatus(), menu.getUserId()); 	
         if (list.size() > 0) {
         	return false;
         } else {
