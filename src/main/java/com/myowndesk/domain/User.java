@@ -9,6 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+import javax.validation.constraints.Email;
 //import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
@@ -31,11 +32,11 @@ public class User extends AuditModel implements Serializable {
 	private String name;
 	
 	@NotBlank(message="Please enter Email Id")
-	//@Email(message="Please enter valid Email Id")
+	@Email(message="Please enter valid Email Id")
 	@Column(name="email_id", nullable = false, columnDefinition = "VARCHAR(45)", length = 45)
 	private String emailId;
 	
-	//@Size(min=6, max=24, message="Password length should be min {min} and max {max}")
+	@Size(min=6, max=24, message="Password length should be min {min} and max {max}")
 	@Column(name="password", nullable = false, columnDefinition = "VARCHAR(25)", length = 24)
 	private String password;
 	

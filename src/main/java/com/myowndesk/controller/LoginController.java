@@ -53,6 +53,8 @@ public class LoginController {
 			}
 		}
 		user = iUserService.fetchUserDetail(userId);
+		user.setEmailId("");
+		user.setPassword("");
 		return new ResponseEntity<User>(user, HttpStatus.OK);
 	}
 
