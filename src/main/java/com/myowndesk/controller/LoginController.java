@@ -39,9 +39,14 @@ public class LoginController {
 		if (!Utils.isEmpty(emailId) && !Utils.isEmpty(password)) {
 			userId = iUserService.validateUser(emailId, password);
 			if (userId == 0) {
-				errorMsg = messageLocale.getMessage("user.auth.failed");
-				//errorMsg = messageLocale.getMessage("welcome.message", Locale.US);
-				logger.info("Authendication failed --> emailId:" + emailId + ", password: " + password);
+				//validate username available in db
+				if(!iUserService.isEmailIdAvailable(emailId)) {
+					errorMsg = messageLocale.getMessage("user.not.registered");
+				} else {
+					errorMsg = messageLocale.getMessage("user.auth.failed");
+					//errorMsg = messageLocale.getMessage("welcome.message", Locale.US);
+					logger.info("Authendication failed --> emailId:" + emailId + ", password: " + password);
+				}
 			}
 		} else {
 			errorMsg = messageLocale.getMessage("user.auth.empty");

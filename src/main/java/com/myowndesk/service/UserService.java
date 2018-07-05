@@ -67,4 +67,15 @@ public class UserService implements IUserService {
         return 0L;
 	}
 	
+	@Override
+	public boolean isEmailIdAvailable(String emailId) {
+		List<User> list = userRepository.findByEmailId(emailId); 	
+        if (list.size() > 0) {
+        	return true;
+        } else {
+        	return false;
+        }
+        
+	}
+	
 }

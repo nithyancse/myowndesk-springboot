@@ -20,4 +20,6 @@ public interface IUserService {
 	
 	public Long validateUser(String emailId, String password);
 
+	boolean isEmailIdAvailable(String emailId);
+
 }
