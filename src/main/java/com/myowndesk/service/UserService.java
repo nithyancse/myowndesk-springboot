@@ -1,9 +1,14 @@
 package com.myowndesk.service;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import com.myowndesk.constant.IConstant;
@@ -11,11 +16,25 @@ import com.myowndesk.domain.User;
 import com.myowndesk.repository.UserRepository;
 import com.myowndesk.service.inter.IUserService;
 
-@Service
-public class UserService implements IUserService {
+@Service(value = "userService")
+public class UserService implements UserDetailsService, IUserService {
 	
 	@Autowired
 	UserRepository userRepository;
+	
+	
+	public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
+		User user = userRepository.findByEmailId(userName).get(0);
+		if(user == null){
+			throw new UsernameNotFoundException("Invalid username or password.");
+		}
+		return new org.springframework.security.core.userdetails.User(user.getEmailId(), user.getPassword(), getAuthority());
+	}
+
+	private List<SimpleGrantedAuthority> getAuthority() {
+		return Arrays.asList(new SimpleGrantedAuthority("ROLE_ADMIN"));
+	}
+	
 
 	public User fetchUserDetail(long id){
 		User user = userRepository.findById(id).get();
