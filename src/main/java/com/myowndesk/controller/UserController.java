@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -40,6 +41,8 @@ public class UserController {
 	@PostMapping("/addUser")
 	public ResponseEntity<?> addUser(@Valid @RequestBody User user, UriComponentsBuilder builder, Errors errors) {
 		user.setStatus(IConstant.ACTIVE);
+		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+		user.setPassword(passwordEncoder.encode(user.getPassword()));
 		boolean flag = iUserService.addUser(user);
 		String responseMsg = null;
 		if (flag == false) {
@@ -75,9 +78,10 @@ public class UserController {
 	}
 
 	@GetMapping("/fetchUserDetail")
-	public User fetchUserDetail(@RequestParam(value = "userId") long id) {
+	public ResponseEntity<User> fetchUserDetail(@RequestParam(value = "userId") long id) {
 		User user = iUserService.fetchUserDetail(id);
-		return user;
+		user.setPassword("");
+		return new ResponseEntity<User>(user, HttpStatus.OK);
 	}
 
 	@GetMapping("/fetchAllUsers")

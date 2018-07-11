@@ -36,8 +36,8 @@ public class User extends AuditModel implements Serializable {
 	@Column(name="email_id", nullable = false, columnDefinition = "VARCHAR(45)", length = 45)
 	private String emailId;
 	
-	@Size(min=6, max=24, message="Password length should be min {min} and max {max}")
-	@Column(name="password", nullable = false, columnDefinition = "VARCHAR(25)", length = 24)
+	@Size(min=6, max=60, message="Password length should be min {min} chars")
+	@Column(name="password", nullable = false, columnDefinition = "VARCHAR(60)", length = 60)
 	private String password;
 	
 	@Size(min=6, max=24, message="Confirm Password length should be min {min} and max {max}")
