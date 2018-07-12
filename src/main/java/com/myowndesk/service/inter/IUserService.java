@@ -7,6 +7,8 @@ import com.myowndesk.domain.User;
 public interface IUserService {
 
 	public User fetchUserDetail(long id);
+	
+	public User fetchUserDetailByEmailId(String emailId);
 
 	public List<User> fetchAllUsers();
 

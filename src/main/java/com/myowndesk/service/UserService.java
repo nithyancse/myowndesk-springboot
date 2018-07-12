@@ -96,5 +96,11 @@ public class UserService implements UserDetailsService, IUserService {
         }
         
 	}
+
+	@Override
+	public User fetchUserDetailByEmailId(String emailId) {
+		User user = userRepository.findByEmailId(emailId).get(0);
+		return user;
+	}
 	
 }

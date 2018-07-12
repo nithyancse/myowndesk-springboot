@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -78,8 +80,9 @@ public class UserController {
 	}
 
 	@GetMapping("/fetchUserDetail")
-	public ResponseEntity<User> fetchUserDetail(@RequestParam(value = "userId") long id) {
-		User user = iUserService.fetchUserDetail(id);
+	public ResponseEntity<User> fetchUserDetail() {
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		User user = iUserService.fetchUserDetailByEmailId(authentication.getName());
 		user.setPassword("");
 		return new ResponseEntity<User>(user, HttpStatus.OK);
 	}
