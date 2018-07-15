@@ -28,7 +28,7 @@ public class MenuService implements IMenuService {
 	@Override
 	public boolean updateMenu(Menu menu) {
 		List<Menu> list = menuRepository.findByNameAndStatusAndUserId(menu.getName(), menu.getStatus(), menu.getUserId()); 	
-        if (list.size() > 0) {
+        if (list.size() > 1) {
         	return false;
         } else {
         	menuRepository.save(menu);
